@@ -5,7 +5,7 @@ from torchvision import transforms
 from torchvision.models import detection
 import numpy as np
 
-# checks if their is a gpu present, if not uses a cpu
+# checks if there is a gpu present, if not uses a cpu
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
 # mainly consists of the classes present in the coco dataset
@@ -61,6 +61,7 @@ def img_detect(img_path):
             label = f"{classes[idx]}, {idx}: {confidence* 100}%"
             print(f"[INFO] {label}")
             people += 1
+
             cv2.rectangle(orig, (X_1, Y_1), (X_2, Y_2), colors[idx], 2)  # draw bounding boxes over each object
             y = Y_1 - 15 if Y_1 - 15 > 15 else Y_1 + 15
 
