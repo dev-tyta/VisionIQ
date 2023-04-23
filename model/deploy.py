@@ -23,8 +23,6 @@ with gr.Blocks() as demo:
     choices = gr.Dropdown(["Image", "Video", "Web-Cam"],
                           label="What type of Object would you like to detect?", onchange=detection)
 
-    
-
 
 if __name__ == "__main__":
     demo.queue()
