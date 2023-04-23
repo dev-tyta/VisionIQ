@@ -24,8 +24,7 @@ with gr.Blocks() as demo:
                           label="What type of Object would you like to detect?", onchange=detection)
 
     
-    det = gr.Button("Detect")
-    det.click(detect, inputs, outputs)
+
 
 if __name__ == "__main__":
     demo.queue()
