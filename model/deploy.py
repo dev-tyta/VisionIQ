@@ -20,6 +20,10 @@ with gr.Blocks() as demo:
     # choices = gr.Dropdown(["Image", "Video"],
     #                       label="What type of Object would you like to detect?", onchange=detection)
     inp_img = gr.Image()
+    out_img = gr.Image()
+
+    det = gr.Button(value="Detect")
+    det.click(fn=test, inputs=inp_img, outputs=out_img)
 
 if __name__ == "__main__":
     demo.queue()
