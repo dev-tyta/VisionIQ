@@ -3,9 +3,10 @@ import gradio as gr
 
 
 with gr.Blocks() as demo:
-    gr.Markdown("# Human Detector and Counter"
-                "This app helps you detect humans present in your image."
-                "Upload your choice of Image and the app loads the  ")
+    the_ = "# Human Detector and Counter" \
+           "Using Faster-RCNN model, the app detects the people present in your image. " \
+           "It returns the image of t  "
+    gr.Markdown(the_)
     # choices = gr.Dropdown(["Image", "Video"],
     #                       label="What type of Object would you like to detect?", onchange=detection)
 
