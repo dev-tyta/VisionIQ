@@ -1,5 +1,5 @@
 import gradio as gr
-from faster_rcnn import img_detect, video_detection
+# from faster_rcnn import img_detect, video_detection
 
 
 with gr.Blocks() as demo:
