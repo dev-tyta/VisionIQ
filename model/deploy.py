@@ -26,5 +26,4 @@ with gr.Blocks() as demo:
     det.click(fn=test, inputs=inp_img, outputs=out_img)
 
 if __name__ == "__main__":
-    demo.queue()
     demo.launch()
