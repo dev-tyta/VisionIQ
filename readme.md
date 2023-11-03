@@ -29,7 +29,7 @@ This allows for a seamless interaction with the object detection system across d
 
 ```bash
 # Clone the repository
-git clone https://github.com/yourusername/project-repo.git
+git clone https://github.com/dev-tyta/HumanCount.git
 
 # Navigate to the project directory
 cd project-repo
