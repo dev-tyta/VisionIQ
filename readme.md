@@ -1,4 +1,4 @@
-# Project Title: HumanCount 
+# HumanCount 
 
 ## Project Description
 
