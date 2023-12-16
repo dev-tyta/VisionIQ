@@ -82,7 +82,3 @@ Provide information on how others can contribute to the project.
 ## License
 
 Include license information.
-
----
-
-This template provides a structured way to document your project, explaining what the project is about, how to install and use it, detailing the API, the model architectures, performance metrics, and future work. The sections can be expanded or modified to better fit the specifics of your project and to provide more detailed information where necessary.
