@@ -62,7 +62,8 @@ def img_detect(img_path):
             print(f"[INFO] {label}")
             people += 1
 
-            cv2.rectangle(orig, (X_1, Y_1), (X_2, Y_2), colors[idx], 2)  # draw bounding boxes over each object
+            cv2.rectangle(orig, (X_1, Y_1), (X_2, Y_2), colors[idx], 2)
+            # draw bounding boxes over each object
             y = Y_1 - 15 if Y_1 - 15 > 15 else Y_1 + 15
 
             # adds the label text to the image.
@@ -101,7 +102,8 @@ def video_detection(video_path):
                 label = f"{classes[idx]}, {idx}: {confidence* 100}%"
                 print(f"[INFO] {label}")
 
-                cv2.rectangle(vid, (X_1, Y_1), (X_2, Y_2), colors[idx], 2)
+                cv2.rectangle(vid, (X_1, Y_1),
+                              (X_2, Y_2), colors[idx], 2)
                 y = Y_1 - 15 if Y_1 - 15 > 15 else Y_1 + 15
 
                 cv2.putText(vid, label, (X_1, y), cv2.FONT_HERSHEY_SIMPLEX, 0.5, colors[idx], 2)
