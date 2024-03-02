@@ -4,7 +4,7 @@
 
 This project is aimed at developing an object detection system capable of identifying and counting individuals within images or video streams. 
 The underlying models are built upon the Faster R-CNN and YOLO algorithms, leveraging the robustness and efficiency inherent in these architectures. 
-In order to facilitate integration into various real-world applications, an API has been constructed using FastAPI. 
+To facilitate integration into various real-world applications, an API has been constructed using FastAPI. 
 This allows for a seamless interaction with the object detection system across different environments.
 
 ## Table of Contents
