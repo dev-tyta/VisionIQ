@@ -24,21 +24,7 @@ class ModelLoader:
     
 
 # # function to carry out object detection on images.
-# def img_detect(img_path):
-#     image = cv2.imread(img_path)  # reads the model using OpenCV
-#     image = cv2.resize(image, (640, 480))
-#     orig = image.copy()
-
-#     # changing the colorspace from BGR to RGB (since Pytorch trains only RGB image)
-#     image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
-
-#     image = image.transpose((2, 0, 1))  # swapping the color channels from channels last to channels first
-
-#     image = np.expand_dims(image, axis=0)  # add batch dimension to the image
-#     image = image / 255.0  # scaling image from (0,255) to (0,1)
-#     image = torch.FloatTensor(image)  # changes the numpy array to a tensor.
-
-#     image = image.to(device)
+#   
 #     detections = model(image)[0]  # the image is passed to the model to get the bounding boxes
 
 #     people = 0

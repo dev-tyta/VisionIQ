@@ -5,7 +5,12 @@ import torch
 
 
 class ImageUtils:
-    def image_handling(image):
+    def __init__(self):
+        self.image_resize = image_resize
+        self.device = device
+
+
+    def image_handling(self, image):
         image = cv2.imread(filename=image)  # reading image with cv2
         image = cv2.resize(image, dsize=image_resize)  # resizig the image to standard resolution
         image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)  # changing color from BGR to RGB
