@@ -5,29 +5,12 @@ from torchvision import transforms
 from torchvision.models import detection
 import numpy as np
 
-# checks if there is a gpu present, if not uses a cpu
-device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-
-# mainly consists of the classes present in the coco dataset
-classes = ['__background__', 'person', 'bicycle', 'car', 'motorcycle', 'airplane', 'bus',
-           'train', 'truck', 'boat', 'traffic light', 'fire hydrant', 'N/A', 'stop sign',
-           'parking meter', 'bench', 'bird', 'cat', 'dog', 'horse', 'sheep', 'cow',
-           'elephant', 'bear', 'zebra', 'giraffe', 'N/A', 'backpack', 'umbrella', 'N/A', 'N/A',
-           'handbag', 'tie', 'suitcase', 'frisbee', 'skis', 'snowboard', 'sports ball',
-           'kite', 'baseball bat', 'baseball glove', 'skateboard', 'surfboard', 'tennis racket',
-           'bottle', 'N/A', 'wine glass', 'cup', 'fork', 'knife', 'spoon', 'bowl',
-           'banana', 'apple', 'sandwich', 'orange', 'broccoli', 'carrot', 'hot dog', 'pizza',
-           'donut', 'cake', 'chair', 'couch', 'potted plant', 'bed', 'N/A', 'dining table',
-           'N/A', 'N/A', 'toilet', 'N/A', 'tv', 'laptop', 'mouse', 'remote', 'keyboard', 'cell phone',
-           'microwave', 'oven', 'toaster', 'sink', 'refrigerator', 'N/A', 'book',
-           'clock', 'vase', 'scissors', 'teddy bear', 'hair drier', 'toothbrush']
-
-colors = np.random.uniform(0, 255, size=(len(classes), 3))  # assigning a color to each classes of the data
 
 
 # calling the Faster RCNN ResNet50 model
 model = detection.fasterrcnn_resnet50_fpn_v2(pretrained=True, progress=True, pretrained_backbone=True).to(device)
 print(model.eval())  # prints out the architecture of the model
+
 
 
 # function to carry out object detection on images.
