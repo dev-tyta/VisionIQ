@@ -17,7 +17,7 @@ class ModelLoader:
         return model
     
     def load_yolo(device, model_name= "yolov5"):
-        model = torch.hub.load("ultralytics/yolov5", model_name, pretrained=True)
+        model = torch.hub.load("ultralytics/yolov5", model_name, pretrained=True, trust_repo=True)
         model.to(device)
         model.eval()
         return model 
@@ -40,6 +40,7 @@ class ModelLoader:
 #             label = f"{classes[idx]}, {idx}: {confidence* 100}%"
 #             print(f"[INFO] {label}")
 #             people += 1
+#     # loop to construct bounding boxes on image.
 #  
 #             y = Y_1 - 15 if Y_1  over each object
 #             y = Y_1 - 15 if Y_1 - 15 > 15 else Y_1 + 15
