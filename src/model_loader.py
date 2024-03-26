@@ -16,12 +16,18 @@ class ModelLoader:
         model.eval() # prints out the architecture of the model
         return model
     
-    def load_yolo(device, model_name= "yolov5"):
+    def load_yolo(device, model_name= "yolov5s"):
         model = torch.hub.load("ultralytics/yolov5", model_name, pretrained=True, trust_repo=True)
         model.to(device)
         model.eval()
         return model 
     
+
+
+# to test model
+ModelLoader.load_yolo(device)
+ModelLoader.load_fastercnn(device)
+
 
 # # function to carry out object detection on images.
 #   

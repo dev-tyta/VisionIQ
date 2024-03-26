@@ -10,8 +10,7 @@ class VideoUtils:
         frame = F.to_tensor(frame)
         return frame
     
-    def process_video(self, video_path):
-        video = cv2.VideoCapture(video_path)
+    def process_video(self, video):
         frames = []
 
         while video.isOpened():
