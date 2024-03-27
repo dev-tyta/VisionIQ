@@ -3,6 +3,7 @@ from config import device, classes, model_confidence
 from image_utils import ImageUtils
 from video_utils import VideoUtils
 import cv2
+import torch
 
 yolo_model = ModelLoader.load_yolo(device)
 fasterrcnn_model = ModelLoader.load_fastercnn(device)
@@ -19,21 +20,23 @@ class Detections:
         self.classes = classes
         self.model_confidence = model_confidence
 
-    def image_detection(self, image):
-        image_handled = self.image_utils.image_handling(image)
-        detections = self.yolo_model(image_handled)[0]
+    def image_detection(self, images):
+        images_tensor = torch.stack([self.image_utils.image_handling(image) for image in images]).to(self.device)
+        detections = self.yolo_model(images_tensor)[0]
         return detections
 
     def video_detection(self, video_path):
         video = cv2.VideoCapture(video_path)
-        frames = video_utils.process_video(video)
-        people_count_per_frame = []
-        for frame in frames:
-            detections = self.yolo_model(frame)[0]
-            people_count = self.people_count(detections)
-            people_count_per_frame.append(people_count)
+        frames = self.video_utils.process_video(video)
+        frame_batches = self.video_utils.create_frame_batches(frames)
+
+        all_detections = []
+        for batch in frame_batches:
+            batch_tensor = torch.stack([self.video_utils.process_video(frame) for frame in batch]).to(self.device)
+            detections = self.yolo_model(batch_tensor)[0]
+            all_detections.extend(detections)
         
-        return people_count_per_frame
+        return all_detections
         
 
     def people_count(self, detections):
@@ -46,3 +49,7 @@ class Detections:
                 label = f"{self.classes[class_idx]}, {class_idx}: {confidence* 100}%"
                 print(f"[INFO] {label}")
                 people += 1
+
+    def batch_people_count(self, batch_detections):
+        counts_per_batch = [self.people_count(detections) for detections in batch_detections]
+        return counts_per_batch
