@@ -2,6 +2,9 @@
 from detections import Detections
 
 image_path = '../data/fam1.HEIC'
+detection = Detections()
 
-output = Detections.image_detection(image_path)
-counting = Detections.batch_people_count(output)
+output = detection.image_detection(image_path)
+counting = detection.people_count(output)
+
+print(f"[INFO] People in the image: {counting}")
