@@ -20,8 +20,13 @@ class Detections:
         self.classes = classes
         self.model_confidence = model_confidence
 
-    def image_detection(self, images):
-        images_tensor = torch.stack([self.image_utils.image_handling(image) for image in images]).to(self.device)
+    def image_detection(self, image):
+        image_handled = self.image_utils.image_handling(image)
+        detections = self.yolo_model(image_handled)[0]
+        return detections
+
+    def batch_image_detection(self, images):
+        images_tensor = torch.stack([self.image_utils.preprocess_image(image) for image in images]).to(self.device)
         detections = self.yolo_model(images_tensor)
         return detections
 
