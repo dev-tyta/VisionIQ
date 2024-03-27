@@ -27,20 +27,22 @@ class Detections:
     def video_detection(self, video_path):
         video = cv2.VideoCapture(video_path)
         frames = video_utils.process_video(video)
+        people_count_per_frame = []
         for frame in frames:
             detections = self.yolo_model(frame)[0]
-            return detections
+            people_count = self.people_count(detections)
+            people_count_per_frame.append(people_count)
+        
+        return people_count_per_frame
         
 
     def people_count(self, detections):
         people = 0
         for i in range(0, len(detections["boxes"])):
             confidence = detections["scores"][i]
-            idx = int(detections["labels"][i])
-            box = detections["boxes"][i].detach().cpu().numpy()
-            (X_1, Y_1, X_2, Y_2) = box.astype("int")
+            class_idx = int(detections["labels"][i])
 
-            if confidence > self.model_confidence and idx == 1:
-                label = f"{self.classes[idx]}, {idx}: {confidence* 100}%"
+            if confidence > self.model_confidence and class_idx == 1:
+                label = f"{self.classes[class_idx]}, {class_idx}: {confidence* 100}%"
                 print(f"[INFO] {label}")
                 people += 1
