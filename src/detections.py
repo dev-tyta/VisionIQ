@@ -22,7 +22,7 @@ class Detections:
 
     def image_detection(self, images):
         images_tensor = torch.stack([self.image_utils.image_handling(image) for image in images]).to(self.device)
-        detections = self.yolo_model(images_tensor)[0]
+        detections = self.yolo_model(images_tensor)
         return detections
 
     def video_detection(self, video_path):
