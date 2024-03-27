@@ -13,7 +13,7 @@ class ImageUtils:
     def image_handling(self, image):
         image = cv2.imread(filename=image)  # reading image with cv2
         if image is None:
-            print(f"Failed to load image at {image_path}")
+            print(f"Failed to load image at {image}")
         else:
             image = cv2.resize(image, dsize=self.image_resize)  # resizig the image to standard resolution
             image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)  # changing color from BGR to RGB
