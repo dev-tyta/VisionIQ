@@ -1,7 +1,7 @@
 # making a test for the project
 from detections import Detections
 
-image_path = '../data/fam1.HEIC'
+image_path = '../data/p.jpg'
 detection = Detections()
 
 output = detection.image_detection(image_path)
