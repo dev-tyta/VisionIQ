@@ -1,28 +1,24 @@
+import torch
 from model_loader import ModelLoader
 from config import device, classes, model_confidence
 from image_utils import ImageUtils
 from video_utils import VideoUtils
 import cv2
-import torch
 
-yolo_model = ModelLoader.load_yolo(device)
-fasterrcnn_model = ModelLoader.load_fastercnn(device)
-image_utils = ImageUtils()
-video_utils = VideoUtils()
 
 class Detections:
     def __init__(self):
-        self.yolo_model = yolo_model
-        self.fasterrcnn_model = fasterrcnn_model
-        self.image_utils = image_utils
-        self.video_utils = video_utils
+        self.yolo_model = ModelLoader.load_yolo(device)
+        self.fasterrcnn_model = ModelLoader.load_fastercnn(device)
+        self.image_utils = ImageUtils()
+        self.video_utils = VideoUtils()
         self.device = device
         self.classes = classes
         self.model_confidence = model_confidence
 
     def image_detection(self, image):
         image_handled = self.image_utils.image_handling(image)
-        detections = self.yolo_model(image_handled)[0]
+        detections = self.yolo_model(image_handled)
         return detections
 
     def batch_image_detection(self, images):
