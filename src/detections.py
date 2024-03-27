@@ -1,5 +1,5 @@
 from model_loader import ModelLoader
-from config import device, classes
+from config import device, classes, model_confidence
 from image_utils import ImageUtils
 from video_utils import VideoUtils
 import cv2
@@ -14,9 +14,10 @@ class Detections:
         self.yolo_model = yolo_model
         self.fasterrcnn_model = fasterrcnn_model
         self.image_utils = image_utils
-        self.vifeo_utils = video_utils
+        self.video_utils = video_utils
         self.device = device
         self.classes = classes
+        self.model_confidence = model_confidence
 
     def image_detection(self, image):
         image_handled = self.image_utils.image_handling(image)
@@ -27,6 +28,19 @@ class Detections:
         video = cv2.VideoCapture(video_path)
         frames = video_utils.process_video(video)
         for frame in frames:
-            detections = self.yolo_model(frame)
+            detections = self.yolo_model(frame)[0]
             return detections
         
+
+    def people_count(self, detections):
+        people = 0
+        for i in range(0, len(detections["boxes"])):
+            confidence = detections["scores"][i]
+            idx = int(detections["labels"][i])
+            box = detections["boxes"][i].detach().cpu().numpy()
+            (X_1, Y_1, X_2, Y_2) = box.astype("int")
+
+            if confidence > self.model_confidence and idx == 1:
+                label = f"{self.classes[idx]}, {idx}: {confidence* 100}%"
+                print(f"[INFO] {label}")
+                people += 1

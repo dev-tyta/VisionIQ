@@ -29,23 +29,6 @@ ModelLoader.load_yolo(device)
 ModelLoader.load_fastercnn(device)
 
 
-# # function to carry out object detection on images.
-#   
-#     detections = model(image)[0]  # the image is passed to the model to get the bounding boxes
-
-#     people = 0
-#     # loop to construct bounding boxes on image.
-#     for i in range(0, len(detections["boxes"])):
-#         confidence = detections["scores"][i]  # get confidence score of each object in the image
-#         idx = int(detections["labels"][i])  # identifying the id of each of the classes in the image
-#         box = detections["boxes"][i].detach().cpu().numpy()  # gets the coordinates for the bounding boxes
-#         (X_1, Y_1, X_2, Y_2) = box.astype("int")
-
-#         if confidence > 0.75 and idx == 1:
-#             # matching the label index with its classes and its probability
-#             label = f"{classes[idx]}, {idx}: {confidence* 100}%"
-#             print(f"[INFO] {label}")
-#             people += 1
 #     # loop to construct bounding boxes on image.
 #  
 #             y = Y_1 - 15 if Y_1  over each object
