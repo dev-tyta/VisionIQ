@@ -50,6 +50,8 @@ class Detections:
                 print(f"[INFO] {label}")
                 people += 1
 
+        return people 
+
     def batch_people_count(self, batch_detections):
         counts_per_batch = [self.people_count(detections) for detections in batch_detections]
         return counts_per_batch
