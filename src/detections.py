@@ -3,7 +3,6 @@ from config import device, classes
 from image_utils import ImageUtils
 from video_utils import VideoUtils
 import cv2
-import torch
 
 yolo_model = ModelLoader.load_yolo(device)
 fasterrcnn_model = ModelLoader.load_fastercnn(device)
@@ -20,16 +19,9 @@ class Detections:
         self.classes = classes
 
     def image_detection(self, image):
-        def yolo_detection(self, image):
-            image_handled = self.image_utils.image_handling(image)
-            detections = self.yolo_model(image_handled)[0]
-            return detections
-
-        def fasterrcnn_detections(self, image):
-            image_handled = self.image_utils.image_handling(image)
-            detections = self.fasterrcnn_model(image_handled)
-            return detections
-        
+        image_handled = self.image_utils.image_handling(image)
+        detections = self.yolo_model(image_handled)[0]
+        return detections
 
     def video_detection(self, video_path):
         video = cv2.VideoCapture(video_path)
