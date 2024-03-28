@@ -9,7 +9,6 @@ import cv2
 class Detections:
     def __init__(self):
         self.yolo_model = ModelLoader.load_yolo(device)
-        self.fasterrcnn_model = ModelLoader.load_fastercnn(device)
         self.image_utils = ImageUtils()
         self.video_utils = VideoUtils()
         self.device = device
