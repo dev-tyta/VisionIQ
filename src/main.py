@@ -1,5 +1,5 @@
 # making a test for the project
-from detections import Detections
+from src.yolo_detections import Detections
 
 image_path = 'data/p.jpg'
 detection = Detections()
