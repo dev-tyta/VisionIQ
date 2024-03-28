@@ -17,12 +17,12 @@ class Detections:
 
     def image_detection(self, image):
         image_handled = self.image_utils.image_handling(image)
-        detections = self.fasterrcnn_model(image_handled)
+        detections = self.fasterrcnn_model(image_handled)[0]
         return detections
 
     def batch_image_detection(self, images):
         images_tensor = torch.stack([self.image_utils.preprocess_image(image) for image in images]).to(self.device)
-        detections = self.fasterrcnn_model(images_tensor)
+        detections = self.fasterrcnn_model(images_tensor)[0]
         return detections
 
     def video_detection(self, video_path):
