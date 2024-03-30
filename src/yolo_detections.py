@@ -1,4 +1,5 @@
 import torch
+import numpy as np
 from model_loader import ModelLoader
 from config import device, classes, model_confidence
 from image_utils import ImageUtils
@@ -15,10 +16,11 @@ class Detections:
         self.classes = classes
         self.model_confidence = model_confidence
 
-    def image_detection(self, image):
+
+    def detect_with_yolo(self, image):
         image_handled = self.image_utils.image_handling(image)
-        detections = self.yolo_model(image_handled)
-        return detections
+        detections = self.yolo_model(image_handled)[0]
+        return self.process_yolo_detections(detections)
 
     def batch_image_detection(self, images):
         images_tensor = torch.stack([self.image_utils.preprocess_image(image) for image in images]).to(self.device)
@@ -37,6 +39,18 @@ class Detections:
             all_detections.extend(detections)
         
         return all_detections
+    
+    def process_yolo_detections(self, detections):
+        # YOLO detections processing
+        processed_detections = []
+        for detection in detections:
+            scores = detection[5:]  # Assuming class scores start from index 5
+            class_id = np.argmax(scores)
+            class_name = self.classes[class_id]
+            confidence = scores[class_id]
+            if confidence > self.model_confidence:
+                processed_detections.append((class_name, confidence.item()))
+        return processed_detections
         
 
     def people_count(self, detections):
@@ -52,6 +66,7 @@ class Detections:
 
         return people 
 
-    def batch_people_count(self, batch_detections):
-        counts_per_batch = [self.people_count(detections) for detections in batch_detections]
-        return counts_per_batch
+    def people_count(self, detections):
+        # Count the number of people in detections
+        return sum(1 for detection in detections if detection[0] == 'person')
+
