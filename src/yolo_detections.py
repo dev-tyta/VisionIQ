@@ -7,7 +7,7 @@ from video_utils import VideoUtils
 import cv2
 
 
-class Detections:
+class YoloDetections:
     def __init__(self):
         self.yolo_model = ModelLoader.load_yolo(device)
         self.image_utils = ImageUtils()
