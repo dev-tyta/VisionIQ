@@ -23,9 +23,9 @@ class Detections:
         return self.process_yolo_detections(detections)
 
     def batch_image_detection(self, images):
-        images_tensor = torch.stack([self.image_utils.preprocess_image(image) for image in images]).to(self.device)
-        detections = self.yolo_model(images_tensor)
-        return detections
+        images_tensor = torch.stack([self.image_utils.image_handling(image) for image in images]).to(self.device)
+        detections = self.yolo_model(images_tensor)[0]
+        return self.process_yolo_detections(detections)
 
     def video_detection(self, video_path):
         video = cv2.VideoCapture(video_path)
@@ -44,7 +44,7 @@ class Detections:
         # YOLO detections processing
         processed_detections = []
         for detection in detections:
-            scores = detection[5:]  # Assuming class scores start from index 5
+            scores = detection[5:] # class scores
             class_id = np.argmax(scores)
             class_name = self.classes[class_id]
             confidence = scores[class_id]
@@ -65,8 +65,4 @@ class Detections:
                 people += 1
 
         return people 
-
-    def people_count(self, detections):
-        # Count the number of people in detections
-        return sum(1 for detection in detections if detection[0] == 'person')
 
