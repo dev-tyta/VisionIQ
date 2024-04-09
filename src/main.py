@@ -1,6 +1,6 @@
 # making a test for the project
-from fasterrcnn_detections import Detections
-from yolo_detections import YoloDetections
+from src.model.fasterrcnn_detections import Detections
+from src.model.yolo_detections import YoloDetections
 
 image_path = 'data/p.jpg'
 detection = Detections()
