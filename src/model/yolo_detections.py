@@ -1,7 +1,7 @@
 import torch
 import numpy as np
-from src.model.model_loader import ModelLoader
-from src.model.config import device, classes, model_confidence
+from model_loader import ModelLoader
+from config import device, classes, model_confidence
 from src.data.image_utils import ImageUtils
 from src.data.video_utils import VideoUtils
 import cv2
