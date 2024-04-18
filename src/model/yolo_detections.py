@@ -1,7 +1,7 @@
 import torch
 import numpy as np
-from model_loader import ModelLoader
-from config import device, classes, model_confidence
+from src.model.model_loader import ModelLoader
+from src.model.config import device, classes, model_confidence
 from src.data.image_utils import ImageUtils
 from src.data.video_utils import VideoUtils
 import cv2
@@ -19,7 +19,7 @@ class YoloDetections:
 
     def detect_with_yolo(self, image):
         image_handled = self.image_utils.image_handling(image)
-        detections = self.yolo_model(image_handled)[0]
+        detections = self.yolo_model(image_handled)
         return self.process_yolo_detections(detections)
 
     def batch_image_detection(self, images):
@@ -44,8 +44,8 @@ class YoloDetections:
         # YOLO detections processing
         processed_detections = []
         for detection in detections:
-            scores = detection[5:] # class scores
-            class_id = np.argmax(scores)
+            scores = detection.xyxy[0] # class scores
+            class_id = scores["class"]
             class_name = self.classes[class_id]
             confidence = scores[class_id]
             if confidence > self.model_confidence:
