@@ -22,9 +22,15 @@ class YoloDetections:
         return self.process_yolo_detections(detections)
 
     def batch_image_detection(self, images):
-        images_tensor = torch.stack([image for image in images]).to(self.device)
-        detections = self.yolo_model(images_tensor)[0]
-        return self.process_yolo_detections(detections)
+        images_tensor = torch.stack(images).to(self.device)
+        detections = self.yolo_model(images_tensor)
+
+        all_processed_detections = []
+        for detection in detections.xyxy:
+            processed = self.process_yolo_detections(detection)
+            all_processed_detections.append(processed)
+
+        return all_processed_detections
 
     def video_detection(self, video_path):
         video = cv2.VideoCapture(video_path)
@@ -33,9 +39,11 @@ class YoloDetections:
 
         all_detections = []
         for batch in frame_batches:
-            batch_tensor = torch.stack([self.video_utils.process_video(frame) for frame in batch]).to(self.device)
+            batch_tensor = torch.stack(batch).to(self.device)
             detections = self.yolo_model(batch_tensor)[0]
-            all_detections.extend(detections)
+            
+            for det in detections.xyxy:
+                all_detections.extend(det.cpu().numpy())
         
         return all_detections
     
