@@ -43,10 +43,9 @@ class YoloDetections:
         # YOLO detections processing
         processed_detections = []
         for detection in detections:
-            scores = detection.xyxy[0] # class scores
-            class_id = detections.pandas().xyxy[0]["class"]
+            x1, y1, x2, y2, confidence, class_id = detection
+            class_id = int(class_id)
             class_name = self.classes[class_id]
-            confidence = scores[class_id]
             if confidence > self.model_confidence:
                 processed_detections.append((class_name, confidence.item()))
         return processed_detections
@@ -54,17 +53,14 @@ class YoloDetections:
 
     def people_count(self, detections):
         people = 0
-        for i in range(0, len(detections["boxes"])):
-            confidence = detections["scores"][i]
-            class_idx = int(detections["labels"][i])
+        for detection in detections:
+            x1, y1, x2, y2, confidence, class_id = detection
+            class_id = int(class_id)
 
-            if confidence > self.model_confidence and class_idx == 1:
-                label = f"{self.classes[class_idx]}, {class_idx}: {confidence* 100}%"
+            if confidence > self.model_confidence and class_id == 0:
+                label = f"{self.classes[class_id]}, {class_id}: {confidence* 100:.2f}%"
                 print(f"[INFO] {label}")
                 people += 1
 
         return people 
 
-
-class_id = 0
-print(detections.pandas().xyxy[0]["class"].value_counts()[2])
