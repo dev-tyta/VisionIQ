@@ -18,12 +18,11 @@ class YoloDetections:
 
 
     def detect_with_yolo(self, image):
-        image_handled = self.image_utils.image_handling(image)
-        detections = self.yolo_model(image_handled)
+        detections = self.yolo_model(image)
         return self.process_yolo_detections(detections)
 
     def batch_image_detection(self, images):
-        images_tensor = torch.stack([self.image_utils.image_handling(image) for image in images]).to(self.device)
+        images_tensor = torch.stack([image for image in images]).to(self.device)
         detections = self.yolo_model(images_tensor)[0]
         return self.process_yolo_detections(detections)
 
@@ -45,7 +44,7 @@ class YoloDetections:
         processed_detections = []
         for detection in detections:
             scores = detection.xyxy[0] # class scores
-            class_id = scores["class"]
+            class_id = detections.pandas().xyxy[0]["class"]
             class_name = self.classes[class_id]
             confidence = scores[class_id]
             if confidence > self.model_confidence:
@@ -66,3 +65,6 @@ class YoloDetections:
 
         return people 
 
+
+class_id = 0
+print(detections.pandas().xyxy[0]["class"].value_counts()[2])
