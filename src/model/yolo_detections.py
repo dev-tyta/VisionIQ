@@ -50,25 +50,24 @@ class YoloDetections:
     def process_yolo_detections(self, detections):
         # YOLO detections processing
         processed_detections = []
-        for detection in detections:
+        for detection in detections.xyxy[0]:
             x1, y1, x2, y2, confidence, class_id = detection
             class_id = int(class_id)
             class_name = self.classes[class_id]
-            if confidence > self.model_confidence:
-                processed_detections.append((class_name, confidence.item()))
+            if confidence.item() > self.model_confidence:
+                processed_detections.append((class_id, class_name, confidence.item()))
         return processed_detections
         
 
     def people_count(self, detections):
         people = 0
         for detection in detections:
-            x1, y1, x2, y2, confidence, class_id = detection
+            class_id, class_name, confidence = detection
             class_id = int(class_id)
 
             if confidence > self.model_confidence and class_id == 0:
-                label = f"{self.classes[class_id]}, {class_id}: {confidence* 100:.2f}%"
+                label = f"{class_name}, {class_id}: {confidence* 100:.2f}%"
                 print(f"[INFO] {label}")
                 people += 1
 
         return people 
-
