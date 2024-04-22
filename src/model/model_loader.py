@@ -2,6 +2,7 @@
 import torch
 from torchvision import transforms
 from torchvision.models.detection import fasterrcnn_resnet50_fpn_v2 as fastercnn_model
+from transformers import 
 from src.model.config import device
 
 

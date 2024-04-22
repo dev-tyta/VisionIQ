@@ -25,7 +25,7 @@ classes = ['person', 'bicycle', 'car', 'motorcycle', 'airplane', 'bus',
 colors = np.random.uniform(0, 255, size=(len(classes), 3))
 
 # model configuration
-model_confidence = 0.75
+model_confidence = 0.5
 
 # image and video resizing
 image_resize = (640, 480)
