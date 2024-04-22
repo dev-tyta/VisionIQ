@@ -1,8 +1,7 @@
 # importing libraries
 import torch
-from torchvision import transforms
 from torchvision.models.detection import fasterrcnn_resnet50_fpn_v2 as fastercnn_model
-from transformers import 
+from transformers import LlavaNextForConditionalGeneration
 from src.model.config import device
 
 
@@ -22,4 +21,15 @@ class ModelLoader:
         model.to(device)
         model.eval()
         return model 
+    
+    def load_llava(self):
+        llava_processor = LlavaNextForConditionalGeneration.from_pretrained("llava-hf/llava-v1.6-mistral-7b-hf")
+        llava_model = LlavaNextForConditionalGeneration.from_pretrained("llava-hf/llava-v1.6-mistral-7b-hf",
+                                                                        torch_dtype=torch.float16,
+                                                                        low_cpu_mem_usage=True,
+                                                                        use_flash_attention_2=True
+                                                                        )
+        llava_model.to(self.device)
+        llava_model.eval()
+        return llava_processor, llava_model
     
