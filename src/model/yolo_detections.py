@@ -1,5 +1,4 @@
 import torch
-import numpy as np
 from src.model.model_loader import ModelLoader
 from src.model.config import device, classes, model_confidence
 from src.data.image_utils import ImageUtils
@@ -15,7 +14,6 @@ class YoloDetections:
         self.device = device
         self.classes = classes
         self.model_confidence = model_confidence
-
 
     def detect_with_yolo(self, image):
         detections = self.yolo_model(image)
@@ -41,12 +39,10 @@ class YoloDetections:
         for batch in frame_batches:
             batch_tensor = torch.stack(batch).to(self.device)
             detections = self.yolo_model(batch_tensor)[0]
-            
             for det in detections.xyxy:
                 all_detections.extend(det.cpu().numpy())
-        
         return all_detections
-    
+
     def process_yolo_detections(self, detections):
         # YOLO detections processing
         processed_detections = []
@@ -55,9 +51,9 @@ class YoloDetections:
             class_id = int(class_id)
             class_name = self.classes[class_id]
             if confidence.item() > self.model_confidence:
-                processed_detections.append((class_id, class_name, confidence.item()))
+                processed_detections.append(
+                    (class_id, class_name, confidence.item()))
         return processed_detections
-        
 
     def people_count(self, detections):
         people = 0
@@ -66,12 +62,13 @@ class YoloDetections:
             class_id = int(class_id)
 
             if confidence > self.model_confidence and class_id == 0:
-                label = f"{class_name}, {class_id}: {confidence* 100:.2f}%"
+                label = f"{class_name}, {class_id}: {confidence * 100:.2f}%"
                 print(f"[INFO] {label}")
                 people += 1
 
-        return people 
-    
+        return people
+
     def batch_people_count(self, batch_detections):
-        counts_per_batch = [self.people_count(detections) for detections in batch_detections]
+        counts_per_batch = [self.people_count(
+            detections) for detections in batch_detections]
         return counts_per_batch
