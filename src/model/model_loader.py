@@ -2,7 +2,7 @@
 import torch
 from torchvision.models.detection import fasterrcnn_resnet50_fpn_v2 as fastercnn_model
 from transformers import AutoProcessor, AutoModelForPreTraining
-from src.model.config import device
+from config import device
 
 
 class ModelLoader:
