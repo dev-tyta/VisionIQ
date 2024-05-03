@@ -1,7 +1,7 @@
 # importing libraries
 import torch
 from torchvision.models.detection import fasterrcnn_resnet50_fpn_v2 as fastercnn_model
-from transformers import AutoProcessor, AutoModelForPreTraining
+from transformers import AutoTokenizer, AutoModelForPreTraining
 from config import device
 
 
@@ -25,10 +25,10 @@ class ModelLoader:
         return model
 
     def load_llava(self):
-        llava_processor = AutoProcessor.from_pretrained(
-            "llava-hf/llava-v1.6-mistral-7b-hf")
+        llava_processor = AutoTokenizer.from_pretrained(
+            "llava-hf/llava-v1.6-mistral-7b-hf", cache_dir=None)
         llava_model = AutoModelForPreTraining.from_pretrained(
-            "llava-hf/llava-v1.6-mistral-7b-hf")
+            "llava-hf/llava-v1.6-mistral-7b-hf", cache_dir=None)
         llava_model.to(self.device)
         llava_model.eval()
         return llava_processor, llava_model
