@@ -4,7 +4,7 @@ from torchvision.transforms import functional as F
 
 class VideoUtils:
     def __init__(self):
-        pass
+        self.frames = []
 
     def process_frame(self, frame):
         frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
@@ -12,17 +12,15 @@ class VideoUtils:
         return frame
 
     def process_video(self, video):
-        frames = []
-
         while video.isOpened():
             ret, frame = video.read()
             if not ret:
                 break
             frame = self.process_frame(frame)
-            frames.append(frame)
+            self.frames.append(frame)
 
         video.release()
-        return frames
+        return self.frames
 
     def create_frame_batches(self, frames, batch_size=16):
         """
