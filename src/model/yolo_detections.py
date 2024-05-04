@@ -47,7 +47,7 @@ class YoloDetections:
         # YOLO detections processing
         processed_detections = []
         for detection in detections.xyxy[0]:
-            x1, y1, x2, y2, confidence, class_id = detection
+            _, _, _, _, confidence, class_id = detection
             class_id = int(class_id)
             class_name = self.classes[class_id]
             if confidence.item() > self.model_confidence:
