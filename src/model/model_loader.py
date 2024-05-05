@@ -1,6 +1,6 @@
 import torch
 from torchvision.models.detection import fasterrcnn_resnet50_fpn_v2 as fastercnn_model
-from transformers import pipeline
+from transformers import AutoTokenizer, AutoModelForPreTraining
 from config import device
 
 class ModelLoader:
@@ -31,7 +31,6 @@ class ModelLoader:
         try:
             llava_processor = AutoTokenizer.from_pretrained("llava-hf/llava-v1.6-mistral-7b-hf", cache_dir=None)
             llava_model = AutoModelForPreTraining.from_pretrained("llava-hf/llava-v1.6-mistral-7b-hf", cache_dir=None)
-            llava_model = pipeline("feature-extraction", model="llava-hf/llava-v1.6-mistral-7b-hf", device=self.device)
             llava_model.to(self.device)
             llava_model.eval()
             return llava_processor, llava_model
