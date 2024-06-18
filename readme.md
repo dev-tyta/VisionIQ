@@ -1,4 +1,4 @@
-# HumanCount 
+# VisionIQ
 
 ## Project Description
 
