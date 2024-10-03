@@ -17,6 +17,3 @@ async def root():
 @app.get("/health")
 def health():
     return {"message":"OK"}
-
-
-@app.post("")

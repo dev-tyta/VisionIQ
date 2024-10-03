@@ -568,10 +568,7 @@ files = [
 ]
 
 [package.dependencies]
-numpy = [
-    {version = ">=1.21.4", markers = "python_version >= \"3.10\" and platform_system == \"Darwin\""},
-    {version = ">=1.21.2", markers = "platform_system != \"Darwin\" and python_version >= \"3.10\""},
-]
+numpy = {version = ">=1.23.5", markers = "python_version >= \"3.11\""}
 
 [[package]]
 name = "packaging"
@@ -1386,5 +1383,5 @@ zstd = ["zstandard (>=0.18.0)"]
 
 [metadata]
 lock-version = "2.0"
-python-versions = "3.10.10"
-content-hash = "70e34bafe2e0567eb507c44095c94e3d924217757345a7ffc35637dc0fd3ba04"
+python-versions = "3.11.9"
+content-hash = "96ce0f60da8bca35b31da37c2bf5a8739f7f24f04bfa43c8537b3299e9d13b77"
