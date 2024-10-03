@@ -1,18 +1,18 @@
 import torch
-from model_loader import ModelLoader
+from src.model.model_loader import ModelLoader
 from config import device, classes, model_confidence
-from ..data.image_utils import ImageUtils
-from ..data.video_utils import VideoUtils
+from src.data.image_utils import ImageUtils
+from src.data.video_utils import VideoUtils
 import cv2
 
 
 class Detections:
     def __init__(self):
-        self.fasterrcnn_model = ModelLoader.load_fastercnn(device)
         self.image_utils = ImageUtils()
         self.video_utils = VideoUtils()
         self.device = device
         self.classes = classes
+        self.fasterrcnn_model = ModelLoader.load_fastercnn(self.device)
         self.model_confidence = model_confidence
 
     def image_detection(self, image):

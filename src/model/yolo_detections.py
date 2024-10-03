@@ -1,14 +1,14 @@
 import torch
-from model_loader import ModelLoader
-from config import device, classes, model_confidence
-from ..data.image_utils import ImageUtils
-from ..data.video_utils import VideoUtils
+from src.model.model_loader import ModelLoader
+from src.model.config import device, classes, model_confidence
+from src.data.image_utils import ImageUtils
+from src.data.video_utils import VideoUtils
 import cv2
 
 
 class YoloDetections:
     def __init__(self):
-        self.yolo_model = ModelLoader.load_yolo(device)
+        self.yolo_model = ModelLoader.load_yolo(self.device)
         self.image_utils = ImageUtils()
         self.video_utils = VideoUtils()
         self.device = device
