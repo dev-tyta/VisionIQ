@@ -3,4 +3,4 @@ torchvision
 opencv-contrib-python
 numpy
 transformers
-tokenizers==0.19.1
+tokenizers
