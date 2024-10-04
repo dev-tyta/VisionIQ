@@ -1,9 +1,9 @@
 import torch
+import cv2
 from src.model.model_loader import ModelLoader
-from config import device, classes, model_confidence
+from src.model.config import device, classes, model_confidence
 from src.data.image_utils import ImageUtils
 from src.data.video_utils import VideoUtils
-import cv2
 
 
 class Detections:
@@ -15,15 +15,18 @@ class Detections:
         self.fasterrcnn_model = ModelLoader.load_fastercnn(self.device)
         self.model_confidence = model_confidence
 
+
     def image_detection(self, image):
         image_handled = self.image_utils.image_handling(image)
         detections = self.fasterrcnn_model(image_handled)[0]
         return detections
 
+
     def batch_image_detection(self, images):
-        images_tensor = torch.stack([self.image_utils.preprocess_image(image) for image in images]).to(self.device)
+        images_tensor = torch.stack([self.image_utils.image_handling(image) for image in images]).to(self.device)
         detections = self.fasterrcnn_model(images_tensor)[0]
         return detections
+
 
     def video_detection(self, video_path):
         video = cv2.VideoCapture(video_path)
@@ -51,6 +54,7 @@ class Detections:
                 people += 1
 
         return people 
+
 
     def batch_people_count(self, batch_detections):
         counts_per_batch = [self.people_count(detections) for detections in batch_detections]
