@@ -1,13 +1,26 @@
-from fastapi import FastAPI, Body, File, UploadedFile, status, HTTPException
+from fastapi import FastAPI, Body, File, UploadedFile, status, HTTPException, status
 import base64
-from fastapi.responses import JSONResponse  
-
+from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import JSONResponse
+from pydantic import AnyHttpUrl, UrlConstraints
+from config import settings
 
 
 app = FastAPI(
-    title="VisionIQ"
+    title=settings.PROJECT_NAME,
+    description= "VisionIQ API",
+    version="1.0.0",
+    openapi_url="/openapi.json"
 )
 
+if settings:
+    app.add_middleware(
+        CORSMiddleware,
+        allow_origins="*",
+        allow_credentials=True,
+        allow_methods=["*"],
+        allow_headers=["*"],
+    )
 
 @app.get("/")
 async def root():
@@ -17,3 +30,8 @@ async def root():
 @app.get("/health")
 def health():
     return {"message":"OK"}
+
+
+@app.post("/count-people")
+def count():
+    pass
