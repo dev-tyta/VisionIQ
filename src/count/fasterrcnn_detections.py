@@ -1,9 +1,9 @@
 import torch
 import cv2
-from src.model.model_loader import ModelLoader
-from src.model.config import device, classes, model_confidence
-from src.data.image_utils import ImageUtils
-from src.data.video_utils import VideoUtils
+from src.model_setup.model_loader import ModelLoader
+from src.model_setup.config import device, classes, model_confidence
+from src.utils.image_utils import ImageUtils
+from src.utils.video_utils import VideoUtils
 
 
 class Detections:
