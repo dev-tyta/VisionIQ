@@ -41,9 +41,10 @@ def yolo_count(
 @router.post("/frcnn")
 def frcnn_count(
         img: UploadFile = File(
-        default=None
-        description="Img File to process for counting using the FasterRCNN model.")
+            default=None,
+            description="Img File to process for counting using the FasterRCNN model."
+        )
 ):
-    count2 = frcnn_count.image_detection(img)
+    count2 = frcnn_model.image_detection(img)
 
-    return {"message": f"Total number of people in image: {count2}"}    
+    return {"message": f"Total number of people in image: {count2}"}
