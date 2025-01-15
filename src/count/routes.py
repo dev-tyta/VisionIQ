@@ -5,6 +5,7 @@ from dotenv import load_dotenv
 
 from src.count.yolo_detections import YoloDetections
 from src.count.fasterrcnn_detections import Detections
+from src.model_setup.model_loader import ModelLoader
 
 load_dotenv()
 
@@ -13,6 +14,7 @@ router = APIRouter(
     tags=["Count Models"],
 )
 
+model = ModelLoader()
 yolo_model = YoloDetections()
 frcnn_model = Detections()
 
@@ -22,8 +24,15 @@ def health_check():
 
 
 @router.post("/",status_code=status.HTTP_200_OK)
-def check_model():
-    pass
+def check_models():
+    faster_rcnn_model = model.load_fastercnn()
+    yolo_model = model.load_yolo()
+
+    if faster_rcnn_model is not None and yolo_model is not None:
+        return {"message": "Models Loaded Successfully"}
+    else:
+        return {"message": "Models Failed to Load"}
+
 
 @router.post("/yolo")
 def yolo_count(
