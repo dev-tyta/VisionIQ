@@ -31,7 +31,3 @@ async def root():
 def health():
     return {"message":"OK"}
 
-
-@app.post("/count-people")
-def count():
-    pass

@@ -10,8 +10,8 @@ from src.model_setup.model_loader import ModelLoader
 load_dotenv()
 
 router = APIRouter(
-    prefix="/count",
-    tags=["Count Models"],
+    prefix="/detect",
+    tags=["Detect People with Object Detection Models"],
 )
 
 model = ModelLoader()

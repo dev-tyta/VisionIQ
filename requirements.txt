@@ -4,3 +4,9 @@ opencv-contrib-python
 numpy
 transformers
 tokenizers
+fastapi
+pydantic
+uvicorn
+requests
+python-multipart
+starlette
