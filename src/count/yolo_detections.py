@@ -8,12 +8,12 @@ import cv2
 
 class YoloDetections:
     def __init__(self):
-        self.yolo_model = ModelLoader.load_yolo(self.device)
         self.image_utils = ImageUtils()
         self.video_utils = VideoUtils()
         self.device = device
         self.classes = classes
         self.model_confidence = model_confidence
+        self.yolo_model = ModelLoader.load_yolo(self.device)
 
     def detect_with_yolo(self, image):
         detections = self.yolo_model(image)

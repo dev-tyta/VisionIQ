@@ -10,3 +10,4 @@ uvicorn
 requests
 python-multipart
 starlette
+python-dotenv

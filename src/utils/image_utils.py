@@ -1,5 +1,5 @@
 import cv2
-from src.model.config import image_resize, device
+from src.model_setup.config import image_resize, device
 import numpy as np
 import torch
 
