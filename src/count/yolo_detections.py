@@ -13,11 +13,16 @@ class YoloDetections:
         self.device = device
         self.classes = classes
         self.model_confidence = model_confidence
-        self.yolo_model = ModelLoader.load_yolo(self.device)
+        self.model = ModelLoader()
+        self.yolo_model = self.model.load_yolo()
 
     def detect_with_yolo(self, image):
         detections = self.yolo_model(image)
-        return self.process_yolo_detections(detections)
+        processed_ = self.process_yolo_detections(detections)
+        people = self.people_count(processed_)
+
+        return people
+
 
     def batch_image_detection(self, images):
         images_tensor = torch.stack(images).to(self.device)

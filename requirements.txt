@@ -11,3 +11,4 @@ requests
 python-multipart
 starlette
 python-dotenv
+ultralytics

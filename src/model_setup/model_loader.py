@@ -1,8 +1,6 @@
 import torch
 from torchvision.models.detection import fasterrcnn_resnet50_fpn_v2 as fastercnn_model
-from transformers import AutoTokenizer, AutoModelForPreTraining
-import sys
-
+from ultralytics import YOLO
 
 from src.model_setup.config import device
 
@@ -20,13 +18,13 @@ class ModelLoader:
             print(f"Failed to load Faster R-CNN model: {e}")
             return None
 
-    def load_yolo(self, model_name="yolov5s"):
+    def load_yolo(self, model_name="yolo11n"):
         try:
-            model = torch.hub.load("ultralytics/yolov5", model_name, pretrained=True)
+            yolo_model = YOLO(model_name, task="detection")
             print("YOLO Model Loaded")
-            model.to(self.device)
-            model.eval()
-            return model
+            yolo_model.to(self.device)
+            yolo_model.eval()
+            return yolo_model
         except Exception as e:
             print(f"Failed to load YOLO model: {e}")
             return None
