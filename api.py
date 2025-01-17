@@ -5,6 +5,7 @@ from fastapi.responses import JSONResponse
 from pydantic import AnyHttpUrl, UrlConstraints
 from config import settings
 
+from src.count.routes import router
 
 app = FastAPI(
     title=settings.PROJECT_NAME,
@@ -22,6 +23,9 @@ if settings:
         allow_headers=["*"],
     )
 
+@app.include_router(router, prefix="/detect")
+
+
 @app.get("/")
 async def root():
     return {"message":"Welcome to VisionIQ!!"}
@@ -31,7 +35,3 @@ async def root():
 def health():
     return {"message":"OK"}
 
-
-@app.post("/count-people")
-def count():
-    pass

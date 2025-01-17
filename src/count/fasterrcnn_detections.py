@@ -12,7 +12,8 @@ class Detections:
         self.video_utils = VideoUtils()
         self.device = device
         self.classes = classes
-        self.fasterrcnn_model = ModelLoader.load_fastercnn(self.device)
+        self.model = ModelLoader()
+        self.fasterrcnn_model = self.model.load_fastercnn()
         self.model_confidence = model_confidence
 
 
