@@ -17,9 +17,17 @@ class YoloDetections:
         self.yolo_model = self.model.load_yolo()
 
     def detect_with_yolo(self, image):
+        """
+        Detection with YoloV11 model.
+
+        Attributes:
+            image: image to be detected
+
+        Returns:
+            people: number of people in the image
+        """
         if isinstance (image, str):
             detections = self.yolo_model(image)
-            # print(detections[0])
             people = self.people_count(detections)
 
         else:
@@ -29,17 +37,36 @@ class YoloDetections:
         return people
 
     def batch_image_detection(self, images):
+        """
+        Batch detection with YoloV11 model.
+
+        Attributes:
+            images: list of images to be detected
+
+        Returns:
+            all_processed_detections: list of detections from the yolo model
+        """
         images_tensor = torch.stack(images).to(self.device)
         detections = self.yolo_model(images_tensor)
 
         all_processed_detections = []
-        for detection in detections.xyxy:
-            processed = self.process_yolo_detections(detection)
+        for detection in detections:
+            processed = self.people_count(detection)
             all_processed_detections.append(processed)
 
         return all_processed_detections
 
     def video_detection(self, video_path):
+        """
+        Detection with YoloV11 model on video.
+
+        Attributes:
+            video_path: path to the video
+
+        Returns:
+            all_detections: list of detections from the yolo model
+        """
+
         video = cv2.VideoCapture(video_path)
         frames = self.video_utils.process_video(video)
         frame_batches = self.video_utils.create_frame_batches(frames)
@@ -47,30 +74,27 @@ class YoloDetections:
         all_detections = []
         for batch in frame_batches:
             batch_tensor = torch.stack(batch).to(self.device)
-            detections = self.yolo_model(batch_tensor)[0]
-            for det in detections.xyxy:
-                all_detections.extend(det.cpu().numpy())
+            detections = self.yolo_model(batch_tensor)
+            counts_per_batch = self.batch_people_count(detections)
+            all_detections.append(counts_per_batch)
+            
         return all_detections
 
-    def process_yolo_detections(self, detections):
-        # YOLO detections processing
-        processed_detections = []
-        for detection in detections.xyxy[0]:
-            _, _, _, _, confidence, class_id = detection
-            class_id = int(class_id)
-            class_name = self.classes[class_id]
-            if confidence.item() > self.model_confidence:
-                processed_detections.append(
-                    (class_id, class_name, confidence.item()))
-        return processed_detections
-
     def people_count(self, detections):
+        """
+        Functions to count the number of people in the image
+
+        Attributes:
+            detections: list of detections from the yolo model
+
+        Returns:
+            people: number of people in the image
+        """
         people = 0
 
         if isinstance(detections, list):
             for result in detections:
                 boxes = result.boxes
-                print(boxes)
             person_detections = [
                 det for det in boxes
                 if det.cls.item() == 0
