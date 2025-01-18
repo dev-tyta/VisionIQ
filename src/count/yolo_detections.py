@@ -17,12 +17,16 @@ class YoloDetections:
         self.yolo_model = self.model.load_yolo()
 
     def detect_with_yolo(self, image):
-        detections = self.yolo_model(image)
-        processed_ = self.process_yolo_detections(detections)
-        people = self.people_count(processed_)
+        if isinstance (image, str):
+            detections = self.yolo_model(image)
+            # print(detections[0])
+            people = self.people_count(detections)
+
+        else:
+            detections = self.yolo_model(image)
+            people = self.people_count(detections)
 
         return people
-
 
     def batch_image_detection(self, images):
         images_tensor = torch.stack(images).to(self.device)
@@ -62,15 +66,19 @@ class YoloDetections:
 
     def people_count(self, detections):
         people = 0
-        for detection in detections:
-            class_id, class_name, confidence = detection
-            class_id = int(class_id)
 
-            if confidence > self.model_confidence and class_id == 0:
-                label = f"{class_name}, {class_id}: {confidence * 100:.2f}%"
-                print(f"[INFO] {label}")
-                people += 1
-
+        if isinstance(detections, list):
+            for result in detections:
+                boxes = result.boxes
+                print(boxes)
+            person_detections = [
+                det for det in boxes
+                if det.cls.item() == 0
+            ]
+            people = len(person_detections)
+        else:
+            person_detections = detections.boxes.cls == 0
+            people = int(person_detections.sum())
         return people
 
     def batch_people_count(self, batch_detections):
